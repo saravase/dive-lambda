@@ -60,6 +60,9 @@ jobs:
           repo: dive-lambda
           region: ${AWS_REGION}
           tag: "${CIRCLE_SHA1}"
+          auth:
+            access-key-id: ${AWS_ACCESS_KEY_ID}
+            secret-access-key: ${AWS_SECRET_ACCESS_KEY}
 
 workflows:
   version: 2
