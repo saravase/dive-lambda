@@ -54,13 +54,12 @@ jobs:
       - run:
           name: Tag Docker image
           command: |
-            docker tag dive-lambda:${CIRCLE_SHA1} AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com/dive-lambda:${CIRCLE_SHA1}
-
-      - aws-ecr/push-image:
-          account-url: AWS_ACCOUNT_ID.dkr.ecr.AWS_REGION.amazonaws.com
-          region: AWS_REGION
+            docker tag dive-lambda:${CIRCLE_SHA1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/dive-lambda:${CIRCLE_SHA1}
+      - aws-ecr/build_and_push_image:
+          account-url: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
           repo: dive-lambda
-          tag: ${CIRCLE_SHA1}
+          region: ${AWS_REGION}
+          tag: "${CIRCLE_SHA1}"
 
 workflows:
   version: 2
