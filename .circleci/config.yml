@@ -46,6 +46,11 @@ jobs:
 
       - setup_remote_docker
 
+      - aws-ecr/login:
+          aws-access-key-id: ${AWS_ACCESS_KEY_ID}
+          aws-secret-access-key: ${AWS_SECRET_ACCESS_KEY}
+          aws-region: ${AWS_DEFAULT_REGION}
+
       - run:
           name: Build Docker image
           command: |
@@ -54,7 +59,8 @@ jobs:
       - run:
           name: Tag Docker image
           command: |
-            docker tag dive-lambda:${CIRCLE_SHA1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/dive-lambda:${CIRCLE_SHA1}
+            docker tag dive-lambda:${CIRCLE_SHA1} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/dive-lambda:${CIRCLE_SHA1}
+      
       - aws-ecr/build_and_push_image:
           repo: dive-lambda
           tag: "${CIRCLE_SHA1}"
